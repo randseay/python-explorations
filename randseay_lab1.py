@@ -1,12 +1,27 @@
-# Displays a users name and course information using three print statements
+"""
+Write a program that uses variables to store your first name,
+last name, Course ID, Course Name, Name of School, and email address.
+"""
 
-first_name = "Rand"
-last_name = "Seay"
-course_id = "CSci 160"
-course_name = "Computer Science I"
+firstName = "Rand"
+lastName = "Seay"
+courseID = "CSci 160"
+courseName = "Computer Science I"
 email = "rand.seay@ndus.edu"
-school_name = "University of North Dakota"
+schoolName = "University of North Dakota"
 
-print(first_name,last_name)
-print(course_id,course_name,email)
-print(school_name)
+# Using three print statements
+print(firstName,lastName)
+print(courseID,courseName,email)
+print(schoolName)
+
+# Using one print statement
+print("{} {}\n{} {} {}\n{}".format(firstName,lastName,courseID,courseName,email,schoolName))
+
+# Using six print statements
+print(firstName, end=" ")
+print(lastName)
+print(courseID, end=" ")
+print(courseName, end=" ")
+print(email)
+print(schoolName)
