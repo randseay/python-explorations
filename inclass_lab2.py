@@ -18,4 +18,4 @@ gradeTotal = 0
 for key in studentGrades:
     gradeTotal += gradeValues[studentGrades[key]]
 
-print("{}'s GPA is {}.".format(studentName, gradeTotal/numberOfClasses, ".2f"))
+print("{}'s GPA is {:.2f}.".format(studentName, gradeTotal/numberOfClasses))
