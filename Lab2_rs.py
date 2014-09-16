@@ -23,7 +23,11 @@ while True:
         print("Uh-Oh! That's not going to work, please try again.\n")
 
 print("Magic stuff is happening, please standby...")
-print("Your number is... {}! Imagine that!".format(int(((yourNumber*5+25)/5)-yourNumber)))
+print("Multiply by 5: {} * 5 = {}. Add 25: {} + 25 = {}".format(yourNumber, int(yourNumber*5), int(yourNumber*5), int(yourNumber*5+25)))
+print("Divide by 5: {} / 5 = {}".format(int(yourNumber*5+25), int((yourNumber*5+25)/5)))
+print("Subtract by original number: {} - {} = {}".format(int((yourNumber*5+25)/5), yourNumber, int(((yourNumber*5+25)/5)-yourNumber)))
+print("Result: {}".format(int(((yourNumber*5+25)/5)-yourNumber)))
+print("Imagine that!")
 
 # Part 2: Dollars and Sense
 print("\n", "- "*20, sep="")
