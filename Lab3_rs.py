@@ -7,8 +7,6 @@ functions, and the format function
 from math import pi
 from re import match
 
-answerList = []
-
 # Part 1: What I need is just the area!
 
 print("="*80)
@@ -94,9 +92,6 @@ while True:
 
 print("\nThe area of your {} is {:.2f}".format(shapeList[int(selectedShape)-1], area))
 
-answerList.append(area)
-
-
 # Part 2: Addition of all digits
 
 print()
@@ -119,9 +114,6 @@ yourSum = sum(map(int, str(yourNumber)))
 
 print("The sum of the digits in {} is {}.".format(yourNumber,yourSum))
 
-answerList.append(yourSum)
-
-
 # Part 3: ASCII values!
 
 print()
@@ -143,8 +135,6 @@ while True:
 asciiValue = ord(yourLetter)
 
 print("ASCII value: {}".format(asciiValue))
-
-answerList.append(asciiValue)
 
 # Part 4: Final result
 
