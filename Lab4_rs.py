@@ -6,6 +6,9 @@ Objective: Working with loops (Time for some fun)
 from math import factorial
 
 def sectionIntro(nameOfSection):
+    """
+    Output a section header based on a passed in name
+    """
     print()
     print("="*80)
     print("Welcome to", nameOfSection)
@@ -13,6 +16,9 @@ def sectionIntro(nameOfSection):
     print()
 
 def getIntFromUser(prompt):
+    """
+    Return a positive integer based on user input and a passed-in prompt
+    """
     while True:
         try:
             userInput = int(input(prompt + "\n> "))
@@ -67,7 +73,7 @@ print("The factorial of {} is {}".format(numToGetFactorial, yourFactorial))
 
 sectionIntro("Approximate e")
 
-iterationsOfE = getIntFromUser("Please provide a positive whole number to determine the number of iterations used in the approximation of e.")
+iterationsOfE = getIntFromUser("Please provide a positive whole number to determine the number of iterations\nused in the approximation of e.")
 print()
 
 approxOfE = 1
@@ -75,7 +81,7 @@ print("1 +", end=" ")
 for num in range(1, iterationsOfE + 1):
     approxOfE += 1 / factorial(num)
 
-    print("(1 /", num, "!)", end=" ")
+    print("(1/{}!)".format(num), end=" ")
     if num < iterationsOfE:
         print("+", end=" ")
     else:
@@ -85,7 +91,25 @@ print("The approximation of e after {} iterations is {}".format(iterationsOfE, a
 
 # Part 4: Approximate Pi
 
+sectionIntro("Approximate Pi")
 
+iterationsOfPi = getIntFromUser("Please provide a positive whole number to determine the number of iterations\nused in the approximation of Pi.")
+print()
+
+approxOfPi, sign = 0, 1
+print(approxOfPi, end=" ")
+for num in range(1, iterationsOfPi * 2 + 1, 2):
+    approxOfPi += sign * (4 / num)
+
+    if num < iterationsOfPi * 2:
+        print("+ {}*(4/{})".format(sign, num), end=" ")
+    else:
+        print("=", approxOfPi)
+
+    sign = -sign
+
+print("=", approxOfPi)
+print("The approximation of Pi after {} iterations is {}".format(iterationsOfPi, approxOfPi))
 
 # Part 5: Draw a Triangle
 
