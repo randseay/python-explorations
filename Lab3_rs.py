@@ -29,9 +29,9 @@ def areaOfTriangle(base, height):
 
 while True:
     try:
-        selectedShape = str(input("Please pick one: \n\n1. Circle\n2. Square\n3. Triangle\n> ")).lower()
+        selectedShape = int(input("Please pick one: \n\n1. Circle\n2. Square\n3. Triangle\n4. Exit\n> "))
 
-        if selectedShape == "circle" or int(selectedShape) == 1:
+        if selectedShape == 1:
             while True:
                 try:
                     circleRadius = float(input("Please provide a radius for the circle: "))
@@ -46,7 +46,7 @@ while True:
             area = areaOfCircle(circleRadius)
             break
 
-        elif selectedShape == "square" or int(selectedShape) == 2:
+        elif selectedShape == 2:
             while True:
                 try:
                     sideLength = float(input("Please provide the side length for the square: "))
@@ -61,7 +61,7 @@ while True:
             area = areaOfSquare(sideLength)
             break
 
-        elif selectedShape == "triangle" or int(selectedShape) == 3:
+        elif selectedShape == 3:
             while True:
                 try:
                     baseLength = float(input("Please provide the base length for the triangle: "))
@@ -85,12 +85,17 @@ while True:
                     print("That is not a valid height, please try again.")
             area = areaOfTriangle(baseLength, heightLength)
             break
+        elif selectedShape == 4:
+            break
         else:
             print("Please enter either circle, square, or triangle.")
     except ValueError:
-        print("Invalid input. Try again.")
+        print("Invalid input. Try again and make sure you use a number for the option you would like.")
 
-print("\nThe area of your {} is {:.2f}".format(shapeList[int(selectedShape)-1], area))
+if selectedShape == 4:
+    print("Exiting without calculating an area... Goodbye!")
+else:
+    print("\nThe area of your {} is {:.2f}".format(shapeList[int(selectedShape)-1], area))
 
 # Part 2: Addition of all digits
 
