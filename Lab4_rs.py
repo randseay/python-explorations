@@ -113,6 +113,10 @@ print("The approximation of Pi after {} iterations is {}".format(iterationsOfPi,
 
 # Part 5: Draw a Triangle
 
+sectionIntro("Draw a Triangle.")
 
+triangleSide = getIntFromUser("Please provide positive whole number for the side length of the triangle.")
+print()
 
-
+for num in range(1, triangleSide + 1):
+    print("*"*num)
