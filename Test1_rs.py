@@ -186,8 +186,8 @@ else:
         if num % 2 == 0:
             listOfEvenNums.append(num)
 
-print("\nThe even numbers between those two values are: ", end="")
 if len(listOfEvenNums) > 0:
+    print("\nThe even numbers between those two values are: ", end="")
     for item in listOfEvenNums:
         print(item, end=",")
     print()
@@ -199,3 +199,22 @@ Program 5
 Objective: Compare any amount of number based on user input, and return the
 highest and lowest values.
 """
+
+sectionIntro("the maximum and minimum calculator.")
+
+userNumsToCompare = getNumFromUser(
+    "int",
+    "Please enter how many numbers you would like to compare when finding the maximum and the minimum.",
+    enforcePositiveValue=True
+)
+
+listToMaxMin = []
+for num in range(1, userNumsToCompare + 1):
+    print()
+    numFromUser = getNumFromUser(
+        "float",
+        "Number " + str(num),
+    )
+    listToMaxMin.append(numFromUser)
+
+print("\nThe lowest number is {} and the highest number is {}.".format(min(listToMaxMin), max(listToMaxMin)))
