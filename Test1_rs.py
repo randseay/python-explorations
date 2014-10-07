@@ -163,6 +163,37 @@ Program 4
 Objective: Get all the even numbers between two values.
 """
 
+sectionIntro("the even number finder.")
+
+userFirstValue = getNumFromUser(
+    "int",
+    "Please provide an initial value to set an upper or lower bound on the set of even numbers."
+)
+
+print()
+userSecondValue = getNumFromUser(
+    "int",
+    "Please provide another value to set an upper or lower bound on the set of even numbers."
+)
+
+listOfEvenNums = []
+if userFirstValue < userSecondValue:
+    for num in range(userFirstValue, userSecondValue + 1):
+        if num % 2 == 0:
+            listOfEvenNums.append(num)
+else:
+    for num in range(userSecondValue, userFirstValue - 1):
+        if num % 2 == 0:
+            listOfEvenNums.append(num)
+
+print("\nThe even numbers between those two values are: ", end="")
+if len(listOfEvenNums) > 0:
+    for item in listOfEvenNums:
+        print(item, end=",")
+    print()
+else:
+    print("\nThere are no even numbers between the values {} and {}.".format(userFirstValue, userSecondValue))
+
 """
 Program 5
 Objective: Compare any amount of number based on user input, and return the
