@@ -5,6 +5,8 @@ Author: Rand Seay
 Objective: Review all concepts covered in the previous labs
 """
 
+from math import pi
+
 def sectionIntro(nameOfSection):
     """
     Output a section header based on a passed in name
@@ -125,15 +127,44 @@ print("\nThe last two digits of that year is {}.".format(userYear[-2:]))
 
 """
 Program 3
-Objective:
+Objective: Find the volume of a sphere and the circumference of a circle.
 """
+
+sectionIntro("the volume of a sphere and circumference of a circle calculator.")
+
+def getVolumeOfSphere(radius):
+    return ((4/3) * pi) * radius ** 3
+
+def getCircOfCircle(radius):
+    return 2 * pi * radius
+
+userRadiusOfSphere = getNumFromUser(
+    "float",
+    "Please enter the radius for a sphere to find the volume of.",
+    enforcePositiveValue=True
+)
+
+userVolumeOfSphere = getVolumeOfSphere(userRadiusOfSphere)
+
+print("\nThe volume of a sphere with a radius of {:.2F} is {:.4F}.\n".format(userRadiusOfSphere, userVolumeOfSphere))
+
+userRadiusOfCircle = getNumFromUser(
+    "float",
+    "Please enter the radius for a circle to find the circumference of.",
+    enforcePositiveValue=True
+)
+
+userCircOfCircle = getCircOfCircle(userRadiusOfCircle)
+
+print("\nThe circumference of a circle with a radius of {:.2F} is {:.4F}.\n".format(userRadiusOfCircle, userCircOfCircle))
 
 """
 Program 4
-Objective:
+Objective: Get all the even numbers between two values.
 """
 
 """
 Program 5
-Objective:
+Objective: Compare any amount of number based on user input, and return the
+highest and lowest values.
 """
