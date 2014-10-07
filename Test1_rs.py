@@ -64,29 +64,29 @@ def getNumFromUser(valueType, prompt, enforcePositiveValue=False, specifyDefault
             raise RuntimeError("Invalid data type passed to getNumFromUser under the set conditions ({}).".format(valueType))
     return userInput
 
-"""
-Program 1
-Objective: Split a five-digit integer and decide which digits are odd and which
-are even
-"""
-
-def getNumOfLength(lengthOfNum):
+def getNumOfLength(lengthOfNum, numType="int", prompt=""):
     while True:
         userInput = getNumFromUser(
-            "int",
-            "Please enter a five-digit integer to be split up."
+            numType,
+            prompt
         )
 
-        if len(str(userInput)) == 5:
+        if len(str(userInput)) == lengthOfNum:
             break
         else:
             continue
 
     return userInput
 
+"""
+Program 1
+Objective: Split a five-digit integer and decide which digits are odd and which
+are even.
+"""
+
 sectionIntro("the five-digit splitter")
 
-userNumber = getNumOfLength(5)
+userNumber = getNumOfLength(5, "int", "Please enter a five digit integer to be split up")
 
 oddNums, evenNums = [], []
 for digit in list(str(userNumber)):
@@ -113,8 +113,15 @@ else:
 
 """
 Program 2
-Objective:
+Objective: Get the last two digits from a year and return the last two digits as
+a string.
 """
+
+sectionIntro("the year splitter.")
+
+userYear = str(getNumOfLength(4, "int", "Please enter a four digit year."))
+
+print("\nThe last two digits of that year is {}.".format(userYear[-2:]))
 
 """
 Program 3
