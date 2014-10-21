@@ -1,0 +1,11 @@
+pear
+grape
+apple
+apple
+grapefruit
+apple
+plum
+pear
+grape
+orange
+apple
