@@ -3,31 +3,125 @@ Author: Rand Seay
 Objective: Write a program that plays hangman
 """
 
-import random
+import math, random
 
+images = ("""
+   +----+
+   |
+   |
+   |
+   |
+   |
+   |
+===========
+""","""
+   +----+
+   |    |
+   |
+   |
+   |
+   |
+   |
+===========
+""","""
+   +----+
+   |    |
+   |    O
+   |
+   |
+   |
+   |
+===========
+""","""
+   +----+
+   |    |
+   |    O
+   |    |
+   |
+   |
+   |
+===========
+""","""
+   +----+
+   |    |
+   |    O
+   |   /|
+   |
+   |
+   |
+===========
+""","""
+   +----+
+   |    |
+   |    O
+   |   /|\\
+   |
+   |
+   |
+===========
+""","""
+   +----+
+   |    |
+   |    O
+   |   /|\\
+   |   /
+   |
+   |
+===========
+""","""
+   +----+
+   |    |
+   |    O
+   |   /|\\
+   |   /
+   |   |
+   |
+===========
+""","""
+   +----+
+   |    |
+   |    O
+   |   /|\\
+   |   / \\
+   |   |
+   |
+===========
+""","""
+   +----+
+   |    |
+   |    O
+   |   /|\\
+   |   / \\
+   |   | |
+   |
+===========
+"""
+)
 difficulty = (("Easy", 9), ("Medium", 7), ("Hard", 5))
 playedWords = []
 possibleWords = (
-    "bagpipes",
-    "buffoon",
-    "cobweb",
-    "dwarves",
-    "galvanize",
-    "haphazard",
-    "hyphen",
-    "jigsaw",
-    "keyhole",
-    "microwave",
-    "numbskull",
-    "oxygen",
-    "pneumonia",
-    "rhubarb",
-    "squawk",
-    "vaporize",
-    "whiskey",
-    "zigzag",
-    "zodiak",
-    "zombie",
+    "tuvw",
+    "xyz"
+    # "bagpipes",
+    # "buffoon",
+    # "cobweb",
+    # "dwarves",
+    # "galvanize",
+    # "haphazard",
+    # "hyphen",
+    # "jigsaw",
+    # "keyhole",
+    # "microwave",
+    # "numbskull",
+    # "oxygen",
+    # "pneumonia",
+    # "rhubarb",
+    # "squawk",
+    # "vaporize",
+    # "whiskey",
+    # "zigzag",
+    # "zodiak",
+    # "zombie",
 )
 
 def getNewWord(wordList):
@@ -46,9 +140,15 @@ def setDifficulty(prompt):
     for level in difficulty:
         print("{:8s}{:2} guesses".format(level[0], level[1]))
 
-    chosenDifficulty = input("\n{}\n> ".format(prompt))
+    while True:
+        chosenDifficulty = input("\n{}\n> ".format(prompt))
 
-    return chosenDifficulty
+        for level in difficulty:
+            if chosenDifficulty.lower() == level[0].lower():
+                return level
+            else:
+                prompt = "Uhh... What? Please try again."
+                continue
 
 def getGuess(prompt):
     """
@@ -60,31 +160,59 @@ def getGuess(prompt):
         if len(yourGuess) == 1:
             break
         else:
-            prompt = "You may only guess one letter at a time. Please try again."
+            prompt = "\nWhoops! Please try again."
             continue
     return yourGuess
 
-def checkGuess(targetWord, yourGuess):
+def checkGuess(secretWord, yourGuess, rightGuesses, wrongGuesses, allGuesses):
     """
     Checks whether a guess is in the targeted word
     """
-    if yourGuess in targetWord:
-        return True
+    if yourGuess not in allGuesses:
+        if yourGuess in secretWord:
+            print("Nice guess!")
+            rightGuesses.append(yourGuess)
+        else:
+            print("Sorry... wrong!")
+            wrongGuesses.append(yourGuess)
+
+    allGuesses.append(yourGuess)
+
+    return rightGuesses, wrongGuesses, allGuesses
+
+def getBoard(numWrong, maxWrong):
+    """
+    Gets the board based on the number of guesses that are wrong
+    """
+    if numWrong == 0:
+        board = images[0]
+    elif numWrong == maxWrong:
+        board = images[9]
     else:
-        return False
+        board = images[math.floor((numWrong / maxWrong) * 10)]
 
-def startNewGame(intro):
+    return board
+
+def getProgress(secretWord, rightGuesses):
     """
-    Main game function
+    Get the progress of the word so far in the game
     """
-    print("{}\n".format(intro))
+    resultList = []
 
-    selectedDifficulty = setDifficulty("Which difficulty would you like to play on?")
+    for letter in secretWord:
+        resultList.append(letter if letter in rightGuesses else "_")
 
-    yourWord = getNewWord(possibleWords)
-    print("Your word is selected! Good luck... You'll need it!\n")
+    result = "".join(resultList) + "\n"
 
-    userGuess = getGuess("What is your first guess?")
+    return result
+
+def executeTurn(secretWord, rightGuesses, wrongGuesses, allGuesses, maxWrong):
+    print(getBoard(len(wrongGuesses), maxWrong))
+    print(getProgress(secretWord, rightGuesses))
+    userGuess = getGuess("What is your guess?")
+    checkGuess(secretWord, userGuess, rightGuesses, wrongGuesses, allGuesses)
+
+    return rightGuesses, wrongGuesses, allGuesses
 
 def playAgain():
     """
@@ -98,10 +226,33 @@ def playAgain():
         if userInput.lower() == "n":
             return False
 
+def startNewGame(intro):
+    """
+    Main game function
+    """
+    print("{}\n".format(intro))
 
-# def startGame()
+    difficultyLevel, maxWrong = setDifficulty("Which difficulty would you like to play on?")
+    secretWord = getNewWord(possibleWords)
+    playedWords.append(secretWord)
+    rightGuesses = []
+    wrongGuesses = []
+    allGuesses = []
+    youWin = False
+
+    print("\nYour word is selected and you have {} guesses. Good luck... You'll need it!".format(maxWrong))
+
+    while len(wrongGuesses) <= maxWrong:
+        executeTurn(secretWord, rightGuesses, wrongGuesses, allGuesses, maxWrong)
+        print("Right Guesses:", rightGuesses)
+        print("Wrong Guesses:", wrongGuesses)
+        print("All Guesses:", allGuesses)
+
+    if youWin:
+        print("Congratulations! You guessed the word {} and had {} wrong guesses.".format(secretWord, len(wrongGuesses)))
 
 def main():
+    print(images[len(images) - 1])
     startNewGame("="*80 + "\nWelcome to Hangman!\n" + "="*80)
 
 
