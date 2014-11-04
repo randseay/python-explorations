@@ -100,8 +100,8 @@ images = ("""
 difficulty = (("Easy", 9), ("Medium", 7), ("Hard", 5))
 playedWords = []
 possibleWords = (
-    "tuvw",
-    "xyz"
+    "wer",
+    "asdf"
     # "bagpipes",
     # "buffoon",
     # "cobweb",
@@ -123,6 +123,8 @@ possibleWords = (
     # "zodiak",
     # "zombie",
 )
+youWin = False
+playAgain = False
 
 def getNewWord(wordList):
     while True:
@@ -155,7 +157,7 @@ def getGuess(prompt):
     Retrieves a guess from the user
     """
     while True:
-        yourGuess = input("{}\n> ".format(prompt))
+        yourGuess = input("{}\n> ".format(prompt)).lower()
 
         if len(yourGuess) == 1:
             break
@@ -164,19 +166,26 @@ def getGuess(prompt):
             continue
     return yourGuess
 
-def checkGuess(secretWord, yourGuess, rightGuesses, wrongGuesses, allGuesses):
+def checkGuess(secretWord, yourGuess, rightGuesses, wrongGuesses, allGuesses, maxWrong):
     """
     Checks whether a guess is in the targeted word
     """
+    global youWin
     if yourGuess not in allGuesses:
         if yourGuess in secretWord:
-            print("Nice guess!")
             rightGuesses.append(yourGuess)
+            print("\nNice guess!")
         else:
-            print("Sorry... wrong!")
             wrongGuesses.append(yourGuess)
+            if maxWrong - len(wrongGuesses) > 0:
+                print("\nSorry... wrong! you have {} wrong guesses left.".format(maxWrong - len(wrongGuesses)))
+    else:
+        print("\nYou have already guessed that! You still have {} wrong guesses left.".format(maxWrong - len(wrongGuesses)))
 
     allGuesses.append(yourGuess)
+
+    if sorted(rightGuesses) == sorted(list(secretWord)):
+        youWin = True
 
     return rightGuesses, wrongGuesses, allGuesses
 
@@ -208,13 +217,13 @@ def getProgress(secretWord, rightGuesses):
 
 def executeTurn(secretWord, rightGuesses, wrongGuesses, allGuesses, maxWrong):
     print(getBoard(len(wrongGuesses), maxWrong))
-    print(getProgress(secretWord, rightGuesses))
+    print(" ".join(getProgress(secretWord, rightGuesses)))
     userGuess = getGuess("What is your guess?")
-    checkGuess(secretWord, userGuess, rightGuesses, wrongGuesses, allGuesses)
+    checkGuess(secretWord, userGuess, rightGuesses, wrongGuesses, allGuesses, maxWrong)
 
     return rightGuesses, wrongGuesses, allGuesses
 
-def playAgain():
+def askPlayAgain():
     """
     Ask whether or not the user would like to play again
     """
@@ -224,6 +233,7 @@ def playAgain():
         if userInput.lower() == "y":
             return True
         if userInput.lower() == "n":
+            print("Goodbye!")
             return False
 
 def startNewGame(intro):
@@ -238,22 +248,33 @@ def startNewGame(intro):
     rightGuesses = []
     wrongGuesses = []
     allGuesses = []
+    global youWin
     youWin = False
+    global playAgain
 
     print("\nYour word is selected and you have {} guesses. Good luck... You'll need it!".format(maxWrong))
 
-    while len(wrongGuesses) <= maxWrong:
+    while len(wrongGuesses) < maxWrong and not youWin:
         executeTurn(secretWord, rightGuesses, wrongGuesses, allGuesses, maxWrong)
-        print("Right Guesses:", rightGuesses)
-        print("Wrong Guesses:", wrongGuesses)
-        print("All Guesses:", allGuesses)
 
-    if youWin:
-        print("Congratulations! You guessed the word {} and had {} wrong guesses.".format(secretWord, len(wrongGuesses)))
+        if youWin:
+            print("Congratulations! You guessed the word {} and had {} wrong guesses.".format(secretWord, len(wrongGuesses)))
+
+    if not youWin:
+        print("\nUh-oh, looks like you lost! The word was {}, by the way.".format(secretWord))
+        print(getBoard(len(wrongGuesses), maxWrong))
+
+    playAgain = askPlayAgain()
 
 def main():
+    fileToOpen = open("Python.txt")
+    fileContents = fileToOpen.read()
+    print(fileContents)
+
     print(images[len(images) - 1])
     startNewGame("="*80 + "\nWelcome to Hangman!\n" + "="*80)
 
+    while playAgain:
+        startNewGame("\nAll right, here we go again!\n" + "="*80)
 
 main()
