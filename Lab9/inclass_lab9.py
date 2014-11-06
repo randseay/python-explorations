@@ -1,6 +1,6 @@
 """
 Author: Rand Seay
-Objective: ???
+Objective:
 """
 
 """

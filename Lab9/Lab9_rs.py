@@ -8,7 +8,6 @@ def addClass(classes, className, grade):
     Adds a class with className to the classes dictionary and return True if it
     was added or False if it is already in the dictionary
     """
-
     if className in classes:
         return False
     else:
@@ -21,14 +20,15 @@ def importReportCard(classes, filename="reportcard.txt"):
     ':' (colon), then the contents of the report card are added to the classes
     dictionary
     """
-
     inputFile = open(filename)
+    lineNum = 1
     for line in inputFile:
         if ":" in line:
             splitLine = line.strip().split(":")
             addClass(classes, splitLine[0], splitLine[1])
         else:
-            print("Improperly formatt line {}".format(line.strip()))
+            print("Improperly formatted line data in line {} ({})".format(lineNum, line.strip()))
+        lineNum += 1
     return(classes)
 
 
@@ -37,16 +37,46 @@ def dropClass(classes, className):
     Drops (removes) a class with className from the classes dictionary and
     returns True if it was removed or False if it was not in the dictionary
     """
+    if className in classes:
+        del classes[className]
+        return True
+    else:
+        return False
 
 def printClasses(classes):
     """
-    Prints out all of the classes
+    Prints out all of the classes, with the GPA at the end
     """
+    sortedKeys = list(classes.keys())
+    sortedKeys.sort()
+    count = 0
+    for key in sortedKeys:
+        count += 1
+        print("{}. {:8s}: {}".format(count, key, classes[key]))
+    print("The GPA: {}".format(getGPA(classes)))
 
 def getGPA(classes):
     """
     Returns the GPA for the classes passed in as a floating point number
     """
+    GPA = 0.00
+    gradeTotal = 0
+    for k, v in classes.items():
+        if v.lower() == 'a':
+            gradeTotal += 4
+        elif v.lower() == 'b':
+            gradeTotal += 3
+        elif v.lower() == 'c':
+            gradeTotal += 2
+        elif v.lower() == 'd':
+            gradeTotal += 1
+        elif v.lower() == 'f':
+            gradeTotal += 0
+        else:
+            print("Invalid letter grade ({})".format(v))
+
+    GPA = gradeTotal / len(classes)
+    return GPA
 
 def editGrade(classes, className, grade):
     """
@@ -84,9 +114,6 @@ def main():
     classes = {}
 
     importReportCard(classes)
-
-    print(classes)
-
-
+    printClasses(classes)
 
 main()
