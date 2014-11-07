@@ -1,6 +1,6 @@
 """
 Author: Rand Seay
-Objective: Working with Dictionaries
+Objective: Working with Dictionaries (assignment 1) and files (assignment 2)
 """
 
 # Assignment 1
@@ -181,4 +181,38 @@ main()
 
 # Assignment 2
 
+def main2():
+    # Step 1
+    file1 = open("file1.txt", "r")
+    file2 = open("file2.txt", "r")
 
+    # Step 2
+    file3 = open("file3.txt", "w")
+    file3.write(file1.read())
+    file3.write(file2.read())
+
+    # Cleanup
+    file1.close()
+    file2.close()
+    file3.close()
+
+    # Step 3
+    dataFile = open("file3.txt", "r")
+    file4 = open("file4.txt", "w")
+    wordCount = 0
+    for line in dataFile:
+        wordList = line.rstrip().split(" ")
+        wordList.sort()
+        for word in wordList:
+            file4.write(word + "\n")
+
+            # Step 4
+            if word.strip("--").strip("*").strip(".").strip(",").strip("!").replace("'","").isalpha():
+                wordCount += 1
+    print("-"*80)
+    print("There are {} words in file4.txt".format(wordCount))
+
+    # Cleanup
+    file4.close()
+
+main2()
