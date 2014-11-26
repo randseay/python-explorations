@@ -4,7 +4,7 @@ Objective: Functions and reuse, problem solving, working with files, lists, and
 dictionaries
 """
 
-import math
+import math, random
 
 # Assignment 1
 
@@ -112,6 +112,64 @@ def main():
         elif command == "7":
             print("The median is", median(scores))
         command = menu()
-    print("Goodbye!")
+    print("Goodbye!\n")
 
 main()
+
+# Assignment 2
+
+def getTeams(filename):
+    """
+    Reads in a file and returns a list of teams
+    """
+    fileContents = open(filename)
+    teams = {}
+    for line in fileContents:
+        line = line.rstrip()
+        seed = line.split("-")[1]
+        teamName = line.split("-")[0]
+        teams[int(seed.lstrip())] = teamName.rstrip()
+    return teams
+
+def determineWinner(team1, team2):
+    """
+    Returns the winner between 'team1' and 'team2' based on the random number
+    algorithm
+    """
+    randomNum = random.randint(1,16)
+    if team1 < team2:
+        if randomNum >= team2:
+            return team2
+        else:
+            return team1
+    elif team1 > team2:
+        if randomNum >= team1:
+            return team1
+        else:
+            return team2
+    else:
+        raise Exception("Invalid teams passed to determineWinner.")
+
+def main2():
+    """
+    Document's second main function
+    """
+    print("="*80 + "\nMarch Madness Game Picker\n" + "="*80)
+    schedule = {
+        "game1": [1,16],
+        "game2": [2,15],
+        "game3": [3,14],
+        "game4": [4,13],
+        "game5": [5,12],
+        "game6": [6,11],
+        "game7": [7,10],
+        "game8": [8,9],
+    }
+    teamData = input("Please enter a file name with teams and their seeds\n> ")
+    teams = getTeams(teamData)
+    print("\nFirst Round Results\n" + "-"*80)
+    for k, v in schedule.items():
+        print("#{} {} vs. #{} {}".format(v[0], teams[v[0]], v[1], teams[v[1]]))
+        print("Winner: {}\n".format(teams[determineWinner(v[0], v[1])]))
+
+main2()
