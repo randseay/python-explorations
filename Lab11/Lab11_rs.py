@@ -63,22 +63,57 @@ def printHand(hand):
     """
     Prints a passed in hand of cards
     """
-    print("Your hand:\n")
-    for card in yourHand:
-        print()
+    print("\nYour hand:")
+    for card in hand:
+        print("\t{cardValue} of {cardSuit}".format(cardValue=card[0],cardSuit=card[1]))
+    print("Value: {}\n".format(getHandValue(hand)))
+
+def playAgain(playing):
+    while True:
+        keepPlaying = input("\nWould you like to play again? (y/n)\n> ")
+
+        if keepPlaying.lower() == "y":
+            return True
+        elif keepPlaying.lower() == "n":
+            return False
+        else:
+            print("Please try again.\n")
+
 
 def main():
     """
     The main function
     """
-    deck = makeDeck()
-    yourHand = dealCards(deck)
-    print("Here is your hand:\n{}\nvalue: {}".format(yourHand, getHandValue(yourHand)))
+    print("="*40 + "\nWelcome to Blackjack!\n" + "="*40)
+    playing = True
+    while playing:
+        deck = makeDeck()
+        print("-"*40)
+        yourHand = dealCards(deck)
+        printHand(yourHand)
 
-    getCard(yourHand, deck)
-    print(yourHand)
-    print("Here is your hand:\n{}\nvalue: {}".format(yourHand, getHandValue(yourHand)))
+        while True:
+            userInput = (input("Would you like to hit or stand?\n> "))
+            if userInput == "hit":
+                getCard(yourHand, deck)
+                printHand(yourHand)
+                if getHandValue(yourHand) > 21:
+                    print("Bust! You lose!")
+                    break
+            elif userInput == "stand":
+                break
+            else:
+                print("Please try again.\n")
 
-    print("The size of the deck is {}.".format(len(deck)))
+        if getHandValue(yourHand) == 21:
+            print("Nice! You win with 21!")
+        elif getHandValue(yourHand) > 17 and getHandValue(yourHand) < 21:
+            print("Good job, you win with {}".format(getHandValue(yourHand)))
+        elif getHandValue(yourHand) <= 17:
+            print("Sorry, {} wasn't good enough to win".format(getHandValue(yourHand)))
+
+        if not playAgain(playing):
+            print("\nGoodbye!")
+            playing = False
 
 main()
