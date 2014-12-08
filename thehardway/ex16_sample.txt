@@ -1,0 +1,3 @@
+I am typing the first line.
+Now I am typing the second line.
+Finally I am typing the thrid line.

@@ -1,0 +1,3 @@
+This is the first line of the sample text.
+It is almost as good as the second line of text.
+And nowhere near as cool as the third line. I mean who is?
