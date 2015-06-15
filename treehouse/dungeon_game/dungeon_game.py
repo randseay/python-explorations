@@ -33,9 +33,13 @@ def print_dungeon(dungeon, player):
     """
     Prints the dungeon and the players position.
     """
-    for coord in dungeon:
-        print(coord)
+    tile = "|{}"
 
+    for idx, cell in enumerate(dungeon):
+        if cell == player:
+            print(tile.format('X'), end='')
+        else:
+            print(tile.format('_'), end='')
 
 def get_moves(player):
     """
