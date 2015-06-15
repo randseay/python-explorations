@@ -10,5 +10,5 @@ def hello_world(request):
 
 config = Configurator()
 config.add_route('hello', '/hello')
-config.add_view(hello_world, rout_name='hello')
+config.add_view(hello_world, route_name='hello')
 app = config.make_wsgi_app()

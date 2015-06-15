@@ -17,11 +17,11 @@ class WSGIServer(object):
             self.socket_type
         )
         # Allow to reuse the same address
-        list_socket.setsocket(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         # Bind
         listen_socket.bind(server_address)
         # Activate
-        list_socket.listen(self.request_queue_size)
+        listen_socket.listen(self.request_queue_size)
         # Get server host name and port
         host, port = self.listen_socket.getsockname()[:2]
         self.server_name = socket.getfqdn(host)
@@ -33,7 +33,7 @@ class WSGIServer(object):
         self.application = application
 
     def serve_forever(self):
-        list_socket = self.listen_socket
+        listen_socket = self.listen_socket
         while True:
             # New client connection
             self.client_connection, client_address = listen_socket.accept()
@@ -50,6 +50,16 @@ class WSGIServer(object):
         ))
 
         self.parse_request(request_data)
+
+        # Construct environment dictionary using request data
+        env = self.get_environ()
+
+        # It's time to call our application callable and get back a result that
+        # will become HTTP response body
+        result = self.application(env, self.start_response)
+
+        # Construct a response and send it back to the client
+        self.finish_response(result)
 
     def parse_request(self, text):
         request_line = text.splitlines()[0]
